@@ -37,4 +37,4 @@ RUN ["python","-m","pip","install","--find-links", "https://thegamecracks.github
 
 RUN echo 'Running Sardine Web'
 
-RUN ["sardine","web"]
+RUN ["sardine", "web"]
