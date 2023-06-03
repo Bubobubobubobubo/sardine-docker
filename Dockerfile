@@ -1,6 +1,6 @@
 FROM archlinux:latest
 RUN ["pacman", "-Syu", "--noconfirm"]
-WORKDIR /sardine
+WORKDIR /app
 
 RUN echo 'Installing Base Packages'
 
@@ -30,9 +30,11 @@ RUN ["npm", "install", "yarn"]
 RUN echo 'Pulling & installing Sardine Package'
 
 RUN ["git", "clone", "https://github.com/Bubobubobubobubo/sardine"]
+WORKDIR /app/sardine/sardine/client
+RUN ["yarn", "install"]
+WORKDIR /app/sardine
 RUN ["python","-m","pip","install","--find-links", "https://thegamecracks.github.io/python-rtmidi-wheels/", "."]
 
 RUN echo 'Running Sardine Web'
 
-
-
+RUN ["sardine","web"]
