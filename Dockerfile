@@ -47,4 +47,5 @@ RUN echo '== Running Sardine Web =='
 EXPOSE 57120/udp
 EXPOSE 57110/udp
 EXPOSE 8000/tcp
-RUN ["sardine", "web", "--port", "8080"]
+EXPOSE 8080/tcp
+CMD ["sardine", "web", "--port", "8080"]
