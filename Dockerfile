@@ -1,4 +1,4 @@
-FROM archlinux:latest
+FROM --platform=linux/amd64 archlinux:latest
 RUN ["pacman", "-Syu", "--noconfirm"]
 WORKDIR /app
 
@@ -15,6 +15,11 @@ RUN ["pacman", "-Sy", "python-pip", "--noconfirm"]
 
 
 RUN echo '== Setting up audio streams and connectivity =='
+
+# RUN ["modprobe", "snd_virmidi"]
+# RUN ["su"]
+# RUN ["snd-virmidi",">>", "/etc/modules"]
+
 RUN echo '== Installing SuperCollider, SuperDirt & co =='
 
 RUN ["pacman", "-Sy", "supercollider", "--noconfirm"]
@@ -25,21 +30,21 @@ RUN echo '== Installing Web Dependencies =='
 RUN ["pacman", "-Sy", "nodejs", "--noconfirm"]
 RUN ["pacman", "-Sy", "npm", "--noconfirm"]
 RUN ["npm", "install", "-g", "yarn"]
+RUN ["npm", "install", "-g", "vite"]
+RUN ["npm","config", "set", "unsafe-perm", "true"]
 
 RUN echo '== Pulling & installing Sardine Package =='
 
 RUN ["git", "clone", "https://github.com/Bubobubobubobubo/sardine"]
 WORKDIR /app/sardine/sardine/client
-RUN ["npm", "install"]
+RUN ["yarn", "install"]
+RUN ["yarn", "run", "build"]
 WORKDIR /app/sardine
 RUN ["python","-m","pip","install","--find-links", "https://thegamecracks.github.io/python-rtmidi-wheels/", "."]
 
-# RUN ["git", "clone", "https://github.com/Bubobubobubobubo/sardine"]
-# WORKDIR /app/sardine/sardine/client
-# RUN ["yarn", "install"]
-# WORKDIR /app/sardine
-# RUN ["python","-m","pip","install","--find-links", "https://thegamecracks.github.io/python-rtmidi-wheels/", "."]
+RUN echo '== Running Sardine Web =='
 
-# RUN echo '== Running Sardine Web =='
-# 
-# RUN ["sardine", "web", "--port", "8080"]
+EXPOSE 57120/udp
+EXPOSE 57110/udp
+EXPOSE 8000/tcp
+RUN ["sardine", "web", "--port", "8080"]
