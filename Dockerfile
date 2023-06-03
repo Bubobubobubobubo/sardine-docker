@@ -7,10 +7,10 @@ RUN echo 'Installing Base Packages'
 RUN ["pacman", "-Sy", "pipewire", "--noconfirm"]
 RUN ["pacman", "-Sy", "pipewire-alsa", "--noconfirm"]
 RUN ["pacman", "-Sy", "pipewire-jack", "--noconfirm"]
-RUN ["pacman", "-Sy", "wireplumber", "--noconfirm"]
+# RUN ["pacman", "-Sy", "wireplumber", "--noconfirm"]
 RUN ["pacman", "-Sy", "pipewire-media-session", "--noconfirm"]
 RUN ["pacman", "-Sy", "pipewire-pulse", "--noconfirm"]
-RUN ["pacman", "-Sy", "python 3.11.3-1", "--noconfirm"]
+RUN ["pacman", "-Sy", "python", "--noconfirm"]
 
 RUN echo 'Setting up audio streams and connectivity'
 RUN echo 'Installing SuperCollider, SuperDirt & co'
